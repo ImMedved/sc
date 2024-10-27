@@ -17,11 +17,11 @@ public class MainMenuScreen implements Screen {
 
     public MainMenuScreen(SpriteBatch batch, AssetLoader assetLoader) {
         this.batch = batch;
-        this.menuButtonsBackground = new Texture("MenuButtonsBackground.png");
-        this.startNewGameButton = new Texture("StartNewGameButton.png");
-        this.settingsButton = new Texture("SettingsButton.png");
-        this.multiplayerButton = new Texture("MultiplayerButton.png");
-        this.exitGameButton = new Texture("ExitGameButton.png");
+        this.menuButtonsBackground = new Texture("backgrounds/MenuButtonsBackground.png)");
+        this.startNewGameButton = new Texture("buttons/StartNewGameButton.png)");
+        this.settingsButton = new Texture("buttons/SettingsButton.png)");
+        this.multiplayerButton = new Texture("buttons/MultiplayerButton.png)");
+        this.exitGameButton = new Texture("buttons/ExitGameButton.png)");
     }
 
     @Override

@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.kukharev.GameApp;
 import org.kukharev.managers.AssetLoader;
 
 public class LoadingScreen implements Screen {
@@ -17,8 +16,8 @@ public class LoadingScreen implements Screen {
     public LoadingScreen(SpriteBatch batch, AssetLoader assetLoader) {
         this.batch = batch;
         this.assetLoader = assetLoader;
-        this.background = new Texture("MenuBackground.gif");
-        this.loadingBar = new Texture("LoadingBar.png");
+        this.background = new Texture("backgrounds/MenuBackground.gif");
+        this.loadingBar = new Texture("menus/LoadingBar.gif");
     }
 
     @Override
