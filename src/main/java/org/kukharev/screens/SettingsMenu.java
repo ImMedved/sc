@@ -14,13 +14,11 @@ import org.slf4j.LoggerFactory;
 
 public class SettingsMenu extends Screen {
     private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
-    private final GameApplication gameApp;
 
     public SettingsMenu(GameApplication gameApp) {
-        this.gameApp = gameApp;
 
-        // Создание стилей для элементов интерфейса
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // Загрузка скина из файла, который должен быть добавлен в проект
+        // Creating styles for interface elements
+        Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // Loading a skin from a file that should be added to the project
         BitmapFont font = new BitmapFont();
         TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
         buttonStyle.font = font;
@@ -31,7 +29,7 @@ public class SettingsMenu extends Screen {
         SelectBox.SelectBoxStyle selectBoxStyle = new SelectBox.SelectBoxStyle();
         selectBoxStyle.font = font;
 
-        // Создание элементов интерфейса
+        // Creating interface elements
         CheckBox fullscreenCheckBox = new CheckBox("Fullscreen", checkBoxStyle);
         CheckBox soundCheckBox = new CheckBox("Sound", checkBoxStyle);
         SelectBox<String> resolutionSelectBox = new SelectBox<>(selectBoxStyle);
@@ -39,28 +37,28 @@ public class SettingsMenu extends Screen {
 
         TextButton backButton = new TextButton("Back", buttonStyle);
 
-        // Добавление элементов на экран
+        // Adding elements to the screen
         addActor(fullscreenCheckBox);
         addActor(soundCheckBox);
         addActor(resolutionSelectBox);
         addActor(backButton);
 
-        // Определение центра экрана
+        // Defining the center of the screen
         float centerX = Gdx.graphics.getWidth() / 2f;
         float centerY = Gdx.graphics.getHeight() / 2f;
 
-        // Установка позиций
+        // Setting positions
         fullscreenCheckBox.setPosition(centerX, centerY + 60);
         soundCheckBox.setPosition(centerX, centerY + 30);
         resolutionSelectBox.setPosition(centerX, centerY);
         backButton.setPosition(centerX, centerY - 60);
 
-        // Обработчики событий
+        // Event handlers
         backButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 logger.info("Back button clicked. Returning to Main Menu.");
-                gameApp.setScreen(new MainMenu(gameApp));
+                gameApp.goToMainMenu();
             }
         });
 
@@ -78,7 +76,7 @@ public class SettingsMenu extends Screen {
             public void clicked(InputEvent event, float x, float y) {
                 boolean isChecked = soundCheckBox.isChecked();
                 logger.info("Sound toggled: " + isChecked);
-                // Добавьте логику включения/выключения звука
+                // TODO: Add sound on/off logic
             }
         });
 
@@ -101,7 +99,7 @@ public class SettingsMenu extends Screen {
 
     @Override
     public void render(float delta) {
-        // Реализация рендера для SettingsMenu
+        // TODO: Implementation of renderer for SettingsMenu
     }
 
     @Override

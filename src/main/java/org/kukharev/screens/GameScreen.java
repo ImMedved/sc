@@ -13,17 +13,17 @@ public class GameScreen extends Screen {
 
     @Override
     public void render(float delta) {
-        // Очистка экрана
+        // Screen cleaning
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        // Обновление и рендеринг игрового мира
+        // Updating and rendering the game world
         gameWorld.update(delta);
         gameWorld.render();
     }
 
     @Override
     public void dispose() {
-        // Освобождение ресурсов игрового мира
+        // Freeing up resources in the game world
         gameWorld.dispose();
     }
 }

@@ -12,56 +12,55 @@ import org.kukharev.utils.Player;
 import org.kukharev.utils.Trigger;
 
 public class GameWorld {
-    private OrthographicCamera camera;
-    private Player player;
-    private TiledMap map;
-    private OrthogonalTiledMapRenderer mapRenderer;
-    private Texture backgroundTexture;
-    private Trigger[] triggers;
-    private Batch batch;
+    private final OrthographicCamera camera;
+    private final Player player;
+    private final TiledMap map;
+    private final OrthogonalTiledMapRenderer mapRenderer;
+    private final Texture backgroundTexture;
+    private final Batch batch;
 
     public GameWorld() {
-        // Инициализация камеры
+        // Initializing the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
 
-        // Загрузка карты уровня и её рендера
+        // Loading a level map and rendering it
         map = new TmxMapLoader().load("level1.tmx");
         mapRenderer = new OrthogonalTiledMapRenderer(map);
 
-        // Загрузка фона
+        // Loading background
         backgroundTexture = new Texture("assets/background.png");
 
-        // Инициализация игрока
+        // Player initialization
         player = new Player("assets/player.gif", 100, 100);
 
-        // Пример триггера
-        triggers = new Trigger[]{
+        // Example of a trigger
+        Trigger[] triggers = new Trigger[]{
                 new Trigger(400, 300, 50, 50, "nextLevel")
         };
     }
 
     public void update(float delta) {
-        // Обновление игрока
+        // Player update
         player.update(delta);
 
-        // Обновление камеры
+        // Camera update
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
     }
 
     public void render() {
-        // Рендер фона
+        // Background render
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
 
-        // Рендер карты
+        // Map render
         mapRenderer.setView(camera);
         mapRenderer.render();
 
-        // Рендер игрока
+        // Player render
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
         player.draw(batch);
@@ -69,7 +68,7 @@ public class GameWorld {
     }
 
     public void dispose() {
-        // Освобождение ресурсов
+        // Resource release
         batch.dispose();
         map.dispose();
         mapRenderer.dispose();

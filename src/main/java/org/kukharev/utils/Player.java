@@ -5,20 +5,20 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Player {
-    private Texture texture;
-    private float x, y;
-    private Rectangle hitbox;
+    private final Texture texture;
+    private final float x;
+    private final float y;
 
     public Player(String texturePath, float startX, float startY) {
         texture = new Texture(texturePath);
         this.x = startX;
         this.y = startY;
-        this.hitbox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
+        Rectangle hitbox = new Rectangle(x, y, texture.getWidth(), texture.getHeight());
     }
 
     public void update(float delta) {
-        // Логика обновления позиции игрока
-        // Обработать ввод пользователя
+        // Logic for updating player position
+        // Process user input
     }
 
     public void draw(Batch batch) {

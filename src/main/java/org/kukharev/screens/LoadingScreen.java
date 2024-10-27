@@ -1,66 +1,64 @@
 package org.kukharev.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.utils.async.AsyncExecutor;
-import com.badlogic.gdx.utils.async.AsyncTask;
-import org.kukharev.core.GameApplication;
-import org.kukharev.utils.ResourceLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.ScreenUtils;
+import org.kukharev.GameApp;
+import org.kukharev.managers.AssetLoader;
 
-public class LoadingScreen extends Screen {
-    private static final Logger logger = LoggerFactory.getLogger(LoadingScreen.class);
-    private final GameApplication gameApp;
-    private final AsyncExecutor asyncExecutor;
+public class LoadingScreen implements Screen {
+    private final SpriteBatch batch;
+    private final AssetLoader assetLoader;
+    private final Texture background;
+    private final Texture loadingBar;
 
-    public LoadingScreen(GameApplication gameApp) {
-        this.gameApp = gameApp;
-        this.asyncExecutor = new AsyncExecutor(1);
-
-        // Background image
-        Image backgroundImage = new Image(new Texture("assets/background.jpg"));
-        addActor(backgroundImage);
-
-        // Loading animation (GIF)
-        Image loadingGif = new Image(new Texture("assets/loading.gif"));
-        loadingGif.setPosition(Gdx.graphics.getWidth() / 2f - loadingGif.getWidth() / 2f,
-                Gdx.graphics.getHeight() / 2f - loadingGif.getHeight() / 2f);
-        addActor(loadingGif);
+    public LoadingScreen(SpriteBatch batch, AssetLoader assetLoader) {
+        this.batch = batch;
+        this.assetLoader = assetLoader;
+        this.background = new Texture("MenuBackground.gif");
+        this.loadingBar = new Texture("LoadingBar.png");
     }
 
-    public void startLoading() {
-        asyncExecutor.submit(new AsyncTask<Void>() {
-            @Override
-            public Void call() throws Exception {
-                logger.info("Resource loading started.");
-                ResourceLoader.loadAllResources(); // Loading assets
-                logger.info("Resource loading completed.");
-                onLoadingComplete();
-                return null;
-            }
-        });
-    }
-
-    private void onLoadingComplete() {
-        Gdx.app.postRunnable(() -> {
-            gameApp.setScreen(new MainMenu(gameApp));
-        });
+    @Override
+    public void show() {
+        assetLoader.loadAssets();
     }
 
     @Override
     public void render(float delta) {
-        // Update and draw the stage
-        act(delta);
-        Batch batch = getStage().getBatch();
-        draw(batch, 1.0f);
+        ScreenUtils.clear(0, 0, 0, 1);
+        batch.begin();
+        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+
+        if (!assetLoader.isFinished()) {
+            float loadingProgress = assetLoader.getProgress();
+            batch.draw(loadingBar, Gdx.graphics.getWidth() / 2 - loadingBar.getWidth() / 2, Gdx.graphics.getHeight() / 4);
+        } else {
+            /**TODO:
+            *   Go to the next screen (main menu) when loading is complete
+            *   GameApp.setScreen(new MainMenuScreen(batch, assetLoader));
+            **/
+        }
+        batch.end();
     }
 
     @Override
+    public void resize(int width, int height) {}
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
     public void dispose() {
-        asyncExecutor.dispose();
-        logger.info("LoadingScreen disposed.");
+        background.dispose();
+        loadingBar.dispose();
     }
 }
