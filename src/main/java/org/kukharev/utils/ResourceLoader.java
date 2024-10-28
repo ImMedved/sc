@@ -1,7 +1,6 @@
 package org.kukharev.utils;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +10,7 @@ public class ResourceLoader {
     private static final AssetManager assetManager = new AssetManager();
 
     public static void loadAllResources() {
+        assetManager.clear();
         logger.info("Loading textures...");
         assetManager.load("assets/background.jpg", Texture.class);
         assetManager.load("assets/loading.gif", Texture.class);

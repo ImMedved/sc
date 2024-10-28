@@ -12,9 +12,9 @@ public class AssetLoader {
     }
 
     public void loadAssets() {
-        assetManager.load("GameAssets.atlas", TextureAtlas.class);
-        assetManager.load("MenuBackground.gif", Texture.class);
-        assetManager.load("LoadingBar.png", Texture.class);
+        //assetManager.load("GameAssets.atlas", TextureAtlas.class);
+        assetManager.load("backgrounds/MenuBackground.gif)", Texture.class);
+        assetManager.load("menus/LoadingBar.gif)", Texture.class);
     }
 
     public boolean isFinished() {
