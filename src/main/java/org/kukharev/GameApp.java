@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.kukharev.screens.LoadingScreen;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.screens.MainMenuScreen;
 
 public class GameApp extends Game {
     private SpriteBatch batch;
@@ -16,7 +17,7 @@ public class GameApp extends Game {
         setScreen(new LoadingScreen(batch, assetLoader));
     }
 
-    @Override
+        @Override
     public void dispose() {
         batch.dispose();
         assetLoader.dispose();

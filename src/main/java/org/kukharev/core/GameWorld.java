@@ -8,8 +8,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import org.kukharev.screens.SettingsMenu;
 import org.kukharev.utils.Player;
 import org.kukharev.utils.Trigger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GameWorld {
     private final OrthographicCamera camera;
@@ -18,8 +21,10 @@ public class GameWorld {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Texture backgroundTexture;
     private final Batch batch;
+    private static final Logger logger = LoggerFactory.getLogger(GameWorld.class);
 
     public GameWorld() {
+        logger.info("Starting GameWorld init");
         // Initializing the camera
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -39,6 +44,7 @@ public class GameWorld {
         Trigger[] triggers = new Trigger[]{
                 new Trigger(400, 300, 50, 50, "nextLevel")
         };
+        logger.info("GameWorld inited");
     }
 
     public void update(float delta) {
@@ -65,6 +71,7 @@ public class GameWorld {
         batch.begin();
         player.draw(batch);
         batch.end();
+        logger.info("GameWorld render complete");
     }
 
     public void dispose() {
