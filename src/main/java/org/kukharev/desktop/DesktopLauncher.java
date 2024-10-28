@@ -2,8 +2,7 @@ package org.kukharev.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import org.kukharev.GameApp;
-import org.kukharev.screens.SettingsMenu;
+import org.kukharev.core.GameApplication;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,6 +18,6 @@ public class DesktopLauncher {
         config.setResizable(false);
         logger.info("App config complete");
 
-        new Lwjgl3Application(new GameApp(), config);
+        new Lwjgl3Application(new GameApplication(), config);
     }
 }

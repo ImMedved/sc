@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.kukharev.screens.LoadingScreen;
 import org.kukharev.screens.MainMenuScreen;
 import org.kukharev.managers.AssetLoader;
-import org.kukharev.screens.SettingsMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,12 +18,12 @@ public class GameApplication extends Game {
         logger.info("Starting GameApplication");
         batch = new SpriteBatch();
         assetLoader = new AssetLoader();
-        setScreen(new LoadingScreen(batch, assetLoader)); // We pass both parameters
+        setScreen(new LoadingScreen(this, batch, assetLoader)); // Pass `this` as the GameApplication instance
     }
 
     public void goToMainMenu() {
-        logger.info("Running goToMainMenu method of the GameApplication");
-        setScreen(new MainMenuScreen(batch, assetLoader)); // We pass the necessary parameters
+        logger.info("Transitioning to MainMenuScreen");
+        setScreen(new MainMenuScreen(batch, assetLoader));
     }
 
     @Override

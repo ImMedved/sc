@@ -5,7 +5,6 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
-import org.kukharev.GameApp;
 import org.kukharev.core.GameApplication;
 import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;
@@ -17,10 +16,12 @@ public class LoadingScreen implements Screen {
     private final Texture background;
     private final Texture loadingBar;
     private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
+    private final GameApplication game;
 
-    public LoadingScreen(SpriteBatch batch, AssetLoader assetLoader) {
+    public LoadingScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         logger.info("Loading menu assets load start");
         this.batch = batch;
+        this.game = game;
         this.assetLoader = assetLoader;
         this.background = new Texture("assets/backgrounds/MenuBackground.gif");
         this.loadingBar = new Texture("assets/menus/LoadingBar.gif");
@@ -43,9 +44,8 @@ public class LoadingScreen implements Screen {
             float loadingProgress = assetLoader.getProgress();
             batch.draw(loadingBar, Gdx.graphics.getWidth() / 2 - loadingBar.getWidth() / 2, Gdx.graphics.getHeight() / 4);
         } else {
-            /**TODO:
-            *   Go to the next screen (main menu) when loading is complete
-            **/
+            game.goToMainMenu(); // Transition to MainMenuScreen
+            dispose(); // Dispose LoadingScreen resources
         }
         batch.end();
         logger.info("Loading menu render complete");

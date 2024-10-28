@@ -21,7 +21,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(SpriteBatch batch, AssetLoader assetLoader) {
         logger.info("Texture loading start");
         this.batch = batch;
-        this.menuButtonsBackground = new Texture("assets/buttons/MenuButtonsBackground.png");
+        this.menuButtonsBackground = new Texture("assets/backgrounds/MenuButtonsBackground.png");
         this.startNewGameButton = new Texture("assets/buttons/StartNewGameButton.png");
         this.settingsButton = new Texture("assets/buttons/SettingsButton.png");
         this.multiplayerButton = new Texture("assets/buttons/MultiplayerButton.png");
