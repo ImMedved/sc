@@ -34,3 +34,11 @@ run {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
+
+sourceSets {
+    main {
+        resources {
+            srcDirs = ['assets']
+        }
+    }
+}
