@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import org.kukharev.screens.LoadingScreen;
 import org.kukharev.screens.MainMenuScreen;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.screens.SettingsMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +24,12 @@ public class GameApplication extends Game {
 
     public void goToMainMenu() {
         logger.info("Transitioning to MainMenuScreen");
-        setScreen(new MainMenuScreen(batch, assetLoader));
+        setScreen(new MainMenuScreen(this, batch, assetLoader));
+    }
+
+    public void goToSettingsMenu() {
+        logger.info("Transitioning to MainMenuScreen");
+        setScreen(new SettingsMenu(this,batch, assetLoader));
     }
 
     @Override
@@ -31,4 +37,6 @@ public class GameApplication extends Game {
         batch.dispose();
         assetLoader.dispose();
     }
+
+
 }

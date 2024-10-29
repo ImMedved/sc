@@ -1,109 +1,140 @@
 package org.kukharev.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
-import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
+import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SettingsMenu extends Screen {
+public class SettingsMenu implements Screen {
+    private final SpriteBatch batch;
+    private final Texture backgroundTexture;
+    private final Texture videoButtonTexture;
+    private final Texture audioButtonTexture;
+    private final Texture languageButtonTexture;
+    private final Texture backButtonTexture;
+
+    private final Stage stage;
     private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
+    private final GameApplication game;
 
-    public SettingsMenu(GameApplication gameApp) {
+    public SettingsMenu(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
+        this.batch = batch;
+        this.game = game;
+        stage = new Stage(new ScreenViewport());
 
-        // Creating styles for interface elements
-        Skin skin = new Skin(Gdx.files.internal("uiskin.json")); // Loading a skin from a file that should be added to the project
-        BitmapFont font = new BitmapFont();
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = font;
+        this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
+        this.videoButtonTexture = new Texture("assets/buttons/VideoSettingsButton.png");
+        this.audioButtonTexture = new Texture("assets/buttons/AudioSettingsButton.png");
+        this.languageButtonTexture = new Texture("assets/buttons/LanguageSettingsButton.png");
+        this.backButtonTexture = new Texture("assets/buttons/BackButton.png");
 
-        CheckBox.CheckBoxStyle checkBoxStyle = new CheckBox.CheckBoxStyle();
-        checkBoxStyle.font = font;
+        ImageButton videoButton = createButtonWithSize(videoButtonTexture, 400, 200);
+        ImageButton audioButton = createButtonWithSize(audioButtonTexture, 400, 200);
+        ImageButton languageButton = createButtonWithSize(languageButtonTexture, 400, 200);
+        ImageButton backButton = createButtonWithSize(backButtonTexture, 400, 200);
 
-        SelectBox.SelectBoxStyle selectBoxStyle = new SelectBox.SelectBoxStyle();
-        selectBoxStyle.font = font;
+        videoButton.setPosition(100, 600);
+        audioButton.setPosition(100, 450);
+        languageButton.setPosition(100, 300);
+        backButton.setPosition(100, 150);
 
-        // Creating interface elements
-        CheckBox fullscreenCheckBox = new CheckBox("Fullscreen", checkBoxStyle);
-        CheckBox soundCheckBox = new CheckBox("Sound", checkBoxStyle);
-        SelectBox<String> resolutionSelectBox = new SelectBox<>(selectBoxStyle);
-        resolutionSelectBox.setItems("1280x720", "1366x768", "1600x900", "1920x1080");
+        stage.addActor(videoButton);
+        stage.addActor(audioButton);
+        stage.addActor(languageButton);
+        stage.addActor(backButton);
 
-        TextButton backButton = new TextButton("Back", buttonStyle);
+        addClickListener(videoButton, "Video");
+        addClickListener(audioButton, "Audio");
+        addClickListener(languageButton, "Language");
+        addClickListener(backButton, "Back");
 
-        // Adding elements to the screen
-        addActor(fullscreenCheckBox);
-        addActor(soundCheckBox);
-        addActor(resolutionSelectBox);
-        addActor(backButton);
+        Gdx.input.setInputProcessor(stage);
+    }
 
-        // Defining the center of the screen
-        float centerX = Gdx.graphics.getWidth() / 2f;
-        float centerY = Gdx.graphics.getHeight() / 2f;
+    private ImageButton createButtonWithSize(Texture texture, float width, float height) {
+        ImageButton button = new ImageButton(new TextureRegionDrawable(texture));
+        button.setSize(width, height);
+        return button;
+    }
 
-        // Setting positions
-        fullscreenCheckBox.setPosition(centerX, centerY + 60);
-        soundCheckBox.setPosition(centerX, centerY + 30);
-        resolutionSelectBox.setPosition(centerX, centerY);
-        backButton.setPosition(centerX, centerY - 60);
-
-        // Event handlers
-        backButton.addListener(new ClickListener() {
+    private void addClickListener(ImageButton button, final String action) {
+        button.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                logger.info("Back button clicked. Returning to Main Menu.");
-                gameApp.goToMainMenu();
-            }
-        });
-
-        fullscreenCheckBox.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                boolean isChecked = fullscreenCheckBox.isChecked();
-                Gdx.graphics.setFullscreenMode(isChecked ? Gdx.graphics.getDisplayMode() : null);
-                logger.info("Fullscreen mode toggled: " + isChecked);
-            }
-        });
-
-        soundCheckBox.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                boolean isChecked = soundCheckBox.isChecked();
-                logger.info("Sound toggled: " + isChecked);
-                // TODO: Add sound on/off logic
-            }
-        });
-
-        resolutionSelectBox.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                String resolution = resolutionSelectBox.getSelected();
-                setResolution(resolution);
-                logger.info("Resolution changed to: " + resolution);
+                handleButtonAction(action);
             }
         });
     }
 
-    private void setResolution(String resolution) {
-        String[] parts = resolution.split("x");
-        int width = Integer.parseInt(parts[0]);
-        int height = Integer.parseInt(parts[1]);
-        Gdx.graphics.setWindowedMode(width, height);
+    private void handleButtonAction(String action) {
+        switch (action) {
+            case "Video":
+                logger.info("Video settings button pressed");
+                // TODO: Add video settings logic
+                break;
+            case "Audio":
+                logger.info("Audio settings button pressed");
+                // TODO: Add audio settings logic
+                break;
+            case "Language":
+                logger.info("Language settings button pressed");
+                // TODO: Add language settings logic
+                break;
+            case "Back":
+                logger.info("Back button pressed. Returning to Main Menu.");
+                game.goToMainMenu();
+                break;
+            default:
+                logger.warn("Unknown action: " + action);
+        }
     }
+
+    @Override
+    public void show() {}
 
     @Override
     public void render(float delta) {
-        // TODO: Implementation of renderer for SettingsMenu
+        ScreenUtils.clear(0, 0, 0, 1);
+        batch.begin();
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        batch.end();
+
+        stage.act(delta);
+        stage.draw();
     }
 
     @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
+    }
+
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
+
+    @Override
+    public void hide() {}
+
+    @Override
     public void dispose() {
-        logger.info("SettingsMenu disposed.");
+        stage.dispose();
+        backgroundTexture.dispose();
+        videoButtonTexture.dispose();
+        audioButtonTexture.dispose();
+        languageButtonTexture.dispose();
+        backButtonTexture.dispose();
     }
 }

@@ -13,7 +13,7 @@ public class DesktopLauncher {
         logger.info("Starting app");
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("My Game");
-        config.setWindowedMode(1280, 720);
+        config.setWindowedMode(1920,1080);
         config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         config.setResizable(false);
         logger.info("App config complete");
