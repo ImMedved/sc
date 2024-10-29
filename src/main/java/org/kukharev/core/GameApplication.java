@@ -2,6 +2,7 @@ package org.kukharev.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.kukharev.screens.GameScreen;
 import org.kukharev.screens.LoadingScreen;
 import org.kukharev.screens.MainMenuScreen;
 import org.kukharev.managers.AssetLoader;
@@ -39,4 +40,8 @@ public class GameApplication extends Game {
     }
 
 
+    public void goToNewGame() {
+        logger.info("Transitioning to MainMenuScreen");
+        setScreen(new GameScreen(this,batch, assetLoader));
+    }
 }

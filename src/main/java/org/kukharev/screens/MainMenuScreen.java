@@ -83,6 +83,8 @@ public class MainMenuScreen implements Screen {
         switch (action) {
             case "StartGame":
                 System.out.println("Start Game pressed");
+                game.goToNewGame(); // Transition to MainMenuScreen
+                dispose();
                 break;
             case "Settings":
                 System.out.println("Settings pressed");
