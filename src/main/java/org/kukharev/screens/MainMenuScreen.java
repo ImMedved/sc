@@ -109,6 +109,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
+        logger.info("Texture render start");
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
