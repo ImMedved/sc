@@ -26,7 +26,7 @@ public class MainMenuScreen implements Screen {
 
     private final Stage stage;
     private final GameApplication game;
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
+    private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
 
     public MainMenuScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         logger.info("Texture loading start");

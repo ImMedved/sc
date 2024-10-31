@@ -15,7 +15,7 @@ public class LoadingScreen implements Screen {
     private final AssetLoader assetLoader;
     private final Texture background;
     private final Texture loadingBar;
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
+    private static final Logger logger = LoggerFactory.getLogger(LoadingScreen.class);
     private final GameApplication game;
 
     public LoadingScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
