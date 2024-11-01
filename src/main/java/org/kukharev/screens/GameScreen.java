@@ -20,13 +20,13 @@ public class GameScreen implements Screen {
     private SystemManager systemManager;
     private final SpriteBatch batch;
     private final GameApplication game;
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
+    private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
 
     public GameScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         logger.info("Game init start");
         this.batch = batch;
         this.game = game;
-        this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
+        this.backgroundTexture = new Texture("assets/backgrounds/LevelBackground2.png");
 
         this.systemManager = new SystemManager();
         initializeSystems();
@@ -71,7 +71,7 @@ public class GameScreen implements Screen {
     private void renderBackground() {
         logger.info("Game BG render starts");
         batch.begin();
-        // Отрисовка статичного фона
+        batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch.end();
     }
 

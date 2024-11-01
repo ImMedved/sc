@@ -29,7 +29,7 @@ public class GameApplication extends Game {
     }
 
     public void goToSettingsMenu() {
-        logger.info("Transitioning to MainMenuScreen");
+        logger.info("Transitioning to Settings Menu");
         setScreen(new SettingsMenu(this,batch, assetLoader));
     }
 
@@ -41,7 +41,7 @@ public class GameApplication extends Game {
 
 
     public void goToNewGame() {
-        logger.info("Transitioning to MainMenuScreen");
+        logger.info("Transitioning to Game Screen");
         setScreen(new GameScreen(this,batch, assetLoader));
     }
 }
