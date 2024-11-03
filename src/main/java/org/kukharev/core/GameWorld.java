@@ -5,12 +5,12 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import org.kukharev.screens.SettingsMenu;
-import org.kukharev.utils.Player;
-import org.kukharev.utils.Trigger;
+import org.kukharev.objects.Player;
+import org.kukharev.objects.Trigger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +21,7 @@ public class GameWorld {
     private final OrthogonalTiledMapRenderer mapRenderer;
     private final Texture backgroundTexture;
     private final Batch batch;
+    private final TextureRegion playerTexture;
     private static final Logger logger = LoggerFactory.getLogger(GameWorld.class);
 
     public GameWorld() {
@@ -36,9 +37,9 @@ public class GameWorld {
 
         // Loading background
         backgroundTexture = new Texture("assets/background.png");
-
+        playerTexture = new TextureRegion();
         // Player initialization
-        player = new Player("assets/player.gif", 100, 100);
+        player = new Player(playerTexture);
 
         // Example of a trigger
         Trigger[] triggers = new Trigger[]{
@@ -54,6 +55,16 @@ public class GameWorld {
         // Camera update
         camera.position.set(player.getX(), player.getY(), 0);
         camera.update();
+
+        //TODO:
+        //  Add triggers
+        //  Example:
+        //  for (Trigger trigger : triggers) {
+        //      if (trigger.isPlayerInRange(player)) {
+        //          trigger.activate();
+        //      }
+        //  }
+
     }
 
     public void render() {
@@ -69,7 +80,7 @@ public class GameWorld {
         // Player render
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        player.draw(batch);
+        player.render((SpriteBatch) batch);
         batch.end();
         logger.info("GameWorld render complete");
     }

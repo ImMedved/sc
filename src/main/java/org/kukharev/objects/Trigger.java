@@ -1,10 +1,10 @@
-package org.kukharev.utils;
+package org.kukharev.objects;
 
 import com.badlogic.gdx.math.Rectangle;
 
 public class Trigger {
-    private Rectangle area;
-    private String targetLevel;
+    private final Rectangle area;
+    private final String targetLevel;
 
     public Trigger(float x, float y, float width, float height, String targetLevel) {
         area = new Rectangle(x, y, width, height);

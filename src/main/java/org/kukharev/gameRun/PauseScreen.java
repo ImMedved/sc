@@ -1,4 +1,4 @@
-package org.kukharev.screens;
+package org.kukharev.gameRun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.screens.MainMenuScreen;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

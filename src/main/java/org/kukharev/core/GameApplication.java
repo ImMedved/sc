@@ -2,6 +2,8 @@ package org.kukharev.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import org.kukharev.gameRun.GameScreen;
+import org.kukharev.gameRun.PauseScreen;
 import org.kukharev.screens.*;
 import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;

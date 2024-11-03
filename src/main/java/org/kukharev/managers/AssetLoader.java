@@ -20,7 +20,12 @@ public class AssetLoader {
         assetManager.load("assets/GameAssets.atlas", TextureAtlas.class);
         assetManager.load("assets/backgrounds/MenuBackground.gif", Texture.class);
         assetManager.load("assets/menus/LoadingBar.gif", Texture.class);
+        assetManager.finishLoading();
         logger.info("Assets loading complete");
+    }
+
+    public TextureAtlas getAtlas(String path) {
+        return assetManager.get(path, TextureAtlas.class);
     }
 
     public boolean isFinished() {
