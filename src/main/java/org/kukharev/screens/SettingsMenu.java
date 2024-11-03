@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
+import org.kukharev.core.GlobalSettings;
 import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,12 +33,20 @@ public class SettingsMenu implements Screen {
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
+        String currentLanguage = GlobalSettings.getInstance().getLanguage();
+
+        String buttonsFolder = "";
+        if (currentLanguage == "en") {
+            buttonsFolder = "assets/buttons/ENButtons/";
+        }else{
+            buttonsFolder = "assets/buttons/RUButtons/";
+        }
 
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.videoButtonTexture = new Texture("assets/buttons/VideoSettingsButton.png");
-        this.audioButtonTexture = new Texture("assets/buttons/AudioSettingsButton.png");
-        this.languageButtonTexture = new Texture("assets/buttons/LanguageSettingsButton.png");
-        this.backButtonTexture = new Texture("assets/buttons/BackButton.png");
+        this.videoButtonTexture = new Texture(buttonsFolder + "VideoSettingsButton.png");
+        this.audioButtonTexture = new Texture(buttonsFolder + "AudioSettingsButton.png");
+        this.languageButtonTexture = new Texture(buttonsFolder + "LanguageSettingsButton.png");
+        this.backButtonTexture = new Texture(buttonsFolder + "BackButton.png");
 
         ImageButton videoButton = createButtonWithSize(videoButtonTexture, 400, 200);
         ImageButton audioButton = createButtonWithSize(audioButtonTexture, 400, 200);
@@ -89,7 +98,7 @@ public class SettingsMenu implements Screen {
                 break;
             case "Language":
                 logger.info("Language settings button pressed");
-                // TODO: Add language settings logic
+                game.goLanguage();
                 break;
             case "Back":
                 logger.info("Back button pressed. Returning to Main Menu.");

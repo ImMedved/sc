@@ -12,16 +12,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
-import org.kukharev.core.GlobalSettings;
 import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainMenuScreen implements Screen {
+public class PauseScreen implements Screen {
     private final SpriteBatch batch;
-    private final Texture startNewGameButtonTexture;
+    private final Texture goToMainMenuButtonTexture;
+
     private final Texture settingsButtonTexture;
-    private final Texture multiplayerButtonTexture;
     private final Texture exitGameButtonTexture;
     private final Texture backgroundTexture;
 
@@ -29,45 +28,31 @@ public class MainMenuScreen implements Screen {
     private final GameApplication game;
     private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
 
-    public MainMenuScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
+    public PauseScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         logger.info("Texture loading start");
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        String currentLanguage = GlobalSettings.getInstance().getLanguage();
-
-        String buttonsFolder = "";
-        if (currentLanguage == "en") {
-            buttonsFolder = "assets/buttons/ENButtons/";
-        }else{
-            buttonsFolder = "assets/buttons/RUButtons/";
-        }
-
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.startNewGameButtonTexture = new Texture(buttonsFolder + "StartNewGameButton.png");
-        this.settingsButtonTexture = new Texture(buttonsFolder + "SettingsButton.png");
-        this.multiplayerButtonTexture = new Texture(buttonsFolder + "MultiplayerButton.png");
-        this.exitGameButtonTexture = new Texture(buttonsFolder + "ExitGameButton.png");
+        this.settingsButtonTexture = new Texture("assets/buttons/SettingsButton.png");
+        this.exitGameButtonTexture = new Texture("assets/buttons/ExitGameButton.png");
+        this.goToMainMenuButtonTexture = new Texture("assets/buttons/MainMenuButton.png");
 
-        ImageButton startButton = createButtonWithSize(startNewGameButtonTexture, 400, 200);
         ImageButton settingsButton = createButtonWithSize(settingsButtonTexture, 400, 200);
-        ImageButton multiplayerButton = createButtonWithSize(multiplayerButtonTexture, 400, 200);
         ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture, 400, 200);
+        ImageButton goToMainMenuButton = createButtonWithSize(goToMainMenuButtonTexture, 400, 200);
 
-        startButton.setPosition(100, 600);
-        settingsButton.setPosition(100, 450);
-        multiplayerButton.setPosition(100, 300);
+        settingsButton.setPosition(100, 300);
+        goToMainMenuButton.setPosition(100, 450);
         exitGameButton.setPosition(100, 150);
 
-        stage.addActor(startButton);
         stage.addActor(settingsButton);
-        stage.addActor(multiplayerButton);
         stage.addActor(exitGameButton);
+        stage.addActor(goToMainMenuButton);
 
-        addClickListener(startButton, "StartGame");
         addClickListener(settingsButton, "Settings");
-        addClickListener(multiplayerButton, "MP");
         addClickListener(exitGameButton, "Exit");
+        addClickListener(goToMainMenuButton, "MainMenu");
 
         Gdx.input.setInputProcessor(stage);
 
@@ -91,18 +76,15 @@ public class MainMenuScreen implements Screen {
 
     private void handleButtonAction(String action) {
         switch (action) {
-            case "StartGame":
+            case "MainMenu":
                 System.out.println("Start Game pressed");
-                game.goToNewGame(); // Transition to MainMenuScreen
+                game.goToMainMenu(); // Transition to MainMenuScreen
                 dispose();
                 break;
             case "Settings":
                 System.out.println("Settings pressed");
                 game.goToSettingsMenu(); // Transition to MainMenuScreen
                 dispose();
-                break;
-            case "MP":
-                System.out.println("MP pressed");
                 break;
             case "Exit":
                 System.out.println("Exit pressed");
@@ -147,9 +129,8 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         backgroundTexture.dispose();
-        startNewGameButtonTexture.dispose();
         settingsButtonTexture.dispose();
-        multiplayerButtonTexture.dispose();
         exitGameButtonTexture.dispose();
+        goToMainMenuButtonTexture.dispose();
     }
 }

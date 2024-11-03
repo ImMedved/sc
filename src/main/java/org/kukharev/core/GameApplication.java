@@ -2,11 +2,8 @@ package org.kukharev.core;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.kukharev.screens.GameScreen;
-import org.kukharev.screens.LoadingScreen;
-import org.kukharev.screens.MainMenuScreen;
+import org.kukharev.screens.*;
 import org.kukharev.managers.AssetLoader;
-import org.kukharev.screens.SettingsMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +28,16 @@ public class GameApplication extends Game {
     public void goToSettingsMenu() {
         logger.info("Transitioning to Settings Menu");
         setScreen(new SettingsMenu(this,batch, assetLoader));
+    }
+
+    public void goPause() {
+        logger.info("Transitioning to Pause Screen");
+        setScreen(new PauseScreen(this,batch, assetLoader));
+    }
+
+    public void goLanguage() {
+        logger.info("Transitioning to Language settings Menu");
+        setScreen(new LanguageScreen(this,batch, assetLoader));
     }
 
     @Override

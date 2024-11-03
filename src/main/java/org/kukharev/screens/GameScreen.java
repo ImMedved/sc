@@ -1,13 +1,12 @@
 package org.kukharev.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.kukharev.core.GameApplication;
-import org.kukharev.core.GameWorld;
 import org.kukharev.managers.AssetLoader;
 import org.kukharev.systems.SystemManager;
 import org.kukharev.utils.Renderer;
@@ -17,7 +16,7 @@ import org.slf4j.LoggerFactory;
 public class GameScreen implements Screen {
     private final Texture backgroundTexture;
 
-    private SystemManager systemManager;
+    private final SystemManager systemManager;
     private final SpriteBatch batch;
     private final GameApplication game;
     private static final Logger logger = LoggerFactory.getLogger(GameScreen.class);
@@ -51,7 +50,8 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        logger.info("Game render starts");
+        logger.info("Game render (GameScreen) starts");
+        handleInput();
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -66,6 +66,13 @@ public class GameScreen implements Screen {
         });
         systemManager.renderSystems();
         logger.info("Game render finished");
+    }
+
+    private void handleInput() {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            game.goPause();
+        }
+        // Add other key inputs as required
     }
 
     private void renderBackground() {
@@ -100,7 +107,7 @@ public class GameScreen implements Screen {
     }
 
     private void renderHUD() {
-        logger.info("Game render starts");
+        logger.info("Hud render starts");
 
         batch.begin();
         // Отрисовка HUD

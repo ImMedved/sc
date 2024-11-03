@@ -17,20 +17,18 @@ import org.kukharev.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MainMenuScreen implements Screen {
+public class LanguageScreen implements Screen {
     private final SpriteBatch batch;
-    private final Texture startNewGameButtonTexture;
-    private final Texture settingsButtonTexture;
-    private final Texture multiplayerButtonTexture;
-    private final Texture exitGameButtonTexture;
     private final Texture backgroundTexture;
+    private final Texture ruButtonTexture;
+    private final Texture enButtonTexture;
+    private final Texture backButtonTexture;
 
     private final Stage stage;
+    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
     private final GameApplication game;
-    private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
 
-    public MainMenuScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
-        logger.info("Texture loading start");
+    public LanguageScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
@@ -42,36 +40,28 @@ public class MainMenuScreen implements Screen {
         }else{
             buttonsFolder = "assets/buttons/RUButtons/";
         }
-
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.startNewGameButtonTexture = new Texture(buttonsFolder + "StartNewGameButton.png");
-        this.settingsButtonTexture = new Texture(buttonsFolder + "SettingsButton.png");
-        this.multiplayerButtonTexture = new Texture(buttonsFolder + "MultiplayerButton.png");
-        this.exitGameButtonTexture = new Texture(buttonsFolder + "ExitGameButton.png");
+        this.enButtonTexture = new Texture(buttonsFolder + "EnglishLanguageButton.png");
+        this.ruButtonTexture = new Texture(buttonsFolder + "RussianLanguageButton.png");
+        this.backButtonTexture = new Texture(buttonsFolder + "BackButton.png");
 
-        ImageButton startButton = createButtonWithSize(startNewGameButtonTexture, 400, 200);
-        ImageButton settingsButton = createButtonWithSize(settingsButtonTexture, 400, 200);
-        ImageButton multiplayerButton = createButtonWithSize(multiplayerButtonTexture, 400, 200);
-        ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture, 400, 200);
+        ImageButton ruButton = createButtonWithSize(ruButtonTexture, 400, 200);
+        ImageButton enButton = createButtonWithSize(enButtonTexture, 400, 200);
+        ImageButton backButton = createButtonWithSize(backButtonTexture, 400, 200);
 
-        startButton.setPosition(100, 600);
-        settingsButton.setPosition(100, 450);
-        multiplayerButton.setPosition(100, 300);
-        exitGameButton.setPosition(100, 150);
+        enButton.setPosition(100, 600);
+        ruButton.setPosition(100, 450);
+        backButton.setPosition(100, 150);
 
-        stage.addActor(startButton);
-        stage.addActor(settingsButton);
-        stage.addActor(multiplayerButton);
-        stage.addActor(exitGameButton);
+        stage.addActor(ruButton);
+        stage.addActor(enButton);
+        stage.addActor(backButton);
 
-        addClickListener(startButton, "StartGame");
-        addClickListener(settingsButton, "Settings");
-        addClickListener(multiplayerButton, "MP");
-        addClickListener(exitGameButton, "Exit");
+        addClickListener(ruButton, "ruButton");
+        addClickListener(enButton, "enButton");
+        addClickListener(backButton, "Back");
 
         Gdx.input.setInputProcessor(stage);
-
-        logger.info("Texture loading complete");
     }
 
     private ImageButton createButtonWithSize(Texture texture, float width, float height) {
@@ -91,26 +81,22 @@ public class MainMenuScreen implements Screen {
 
     private void handleButtonAction(String action) {
         switch (action) {
-            case "StartGame":
-                System.out.println("Start Game pressed");
-                game.goToNewGame(); // Transition to MainMenuScreen
-                dispose();
+            case "ruButton":
+                logger.info("Video settings button pressed");
+                GlobalSettings.getInstance().setLanguage("ru");
+                game.goLanguage();
                 break;
-            case "Settings":
-                System.out.println("Settings pressed");
-                game.goToSettingsMenu(); // Transition to MainMenuScreen
-                dispose();
+            case "enButton":
+                logger.info("Audio settings button pressed");
+                GlobalSettings.getInstance().setLanguage("en");
+                game.goLanguage();
                 break;
-            case "MP":
-                System.out.println("MP pressed");
-                break;
-            case "Exit":
-                System.out.println("Exit pressed");
-                Gdx.app.exit();
-                System.exit(0);
+            case "Back":
+                logger.info("Back button pressed. Returning to Main Menu.");
+                game.goToSettingsMenu();
                 break;
             default:
-                System.out.println("Unknown action: " + action);
+                logger.warn("Unknown action: " + action);
         }
     }
 
@@ -119,7 +105,6 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        logger.info("Texture render start");
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -147,9 +132,8 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         backgroundTexture.dispose();
-        startNewGameButtonTexture.dispose();
-        settingsButtonTexture.dispose();
-        multiplayerButtonTexture.dispose();
-        exitGameButtonTexture.dispose();
+        enButtonTexture.dispose();
+        ruButtonTexture.dispose();
+        backButtonTexture.dispose();
     }
 }
