@@ -1,4 +1,4 @@
-package org.kukharev.gameRun;
+package org.kukharev.screens.gameRun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -12,8 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
-import org.kukharev.managers.AssetLoader;
 import org.kukharev.screens.MainMenuScreen;
+import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,9 +39,9 @@ public class PauseScreen implements Screen {
         this.exitGameButtonTexture = new Texture("assets/buttons/ExitGameButton.png");
         this.goToMainMenuButtonTexture = new Texture("assets/buttons/MainMenuButton.png");
 
-        ImageButton settingsButton = createButtonWithSize(settingsButtonTexture, 400, 200);
-        ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture, 400, 200);
-        ImageButton goToMainMenuButton = createButtonWithSize(goToMainMenuButtonTexture, 400, 200);
+        ImageButton settingsButton = createButtonWithSize(settingsButtonTexture);
+        ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture);
+        ImageButton goToMainMenuButton = createButtonWithSize(goToMainMenuButtonTexture);
 
         settingsButton.setPosition(100, 300);
         goToMainMenuButton.setPosition(100, 450);
@@ -60,9 +60,9 @@ public class PauseScreen implements Screen {
         logger.info("Texture loading complete");
     }
 
-    private ImageButton createButtonWithSize(Texture texture, float width, float height) {
+    private ImageButton createButtonWithSize(Texture texture) {
         ImageButton button = new ImageButton(new TextureRegionDrawable(texture));
-        button.setSize(width, height);
+        button.setSize((float) 400, (float) 200);
         return button;
     }
 

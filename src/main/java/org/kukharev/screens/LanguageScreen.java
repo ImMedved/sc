@@ -12,8 +12,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
 import org.kukharev.core.GlobalSettings;
-import org.kukharev.managers.AssetLoader;
 import org.kukharev.utils.ButtonHoverListener;
+import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

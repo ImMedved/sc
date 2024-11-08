@@ -1,4 +1,4 @@
-package org.kukharev.gameRun;
+package org.kukharev.screens.gameRun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -9,11 +9,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import org.kukharev.core.GameApplication;
-import org.kukharev.managers.AssetLoader;
+import org.kukharev.objects.Player;
 import org.kukharev.systems.InputSystem;
 import org.kukharev.systems.SystemManager;
-import org.kukharev.objects.Player;
 import org.kukharev.utils.Renderer;
+import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

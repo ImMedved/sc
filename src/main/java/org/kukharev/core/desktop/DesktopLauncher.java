@@ -1,4 +1,4 @@
-package org.kukharev.desktop;
+package org.kukharev.core.desktop;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
