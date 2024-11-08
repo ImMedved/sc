@@ -4,95 +4,92 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
 import org.kukharev.core.GlobalSettings;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.utils.ButtonHoverListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LanguageScreen implements Screen {
     private final SpriteBatch batch;
     private final Texture backgroundTexture;
-    private final Texture ruButtonTexture;
-    private final Texture enButtonTexture;
-    private final Texture backButtonTexture;
-
+    private final Texture buttonTextureSheet;
+    private final TextureRegion[][] buttonRegions;
     private final Stage stage;
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
     private final GameApplication game;
+    private final String currentLanguage;
+    private static final Logger logger = LoggerFactory.getLogger(LanguageScreen.class);
 
     public LanguageScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
+        logger.info("Loading textures");
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        String currentLanguage = GlobalSettings.getInstance().getLanguage();
+        currentLanguage = GlobalSettings.getInstance().getLanguage();
 
-        String buttonsFolder = "";
-        if (currentLanguage == "en") {
-            buttonsFolder = "assets/buttons/ENButtons/";
-        }else{
-            buttonsFolder = "assets/buttons/RUButtons/";
-        }
+        buttonTextureSheet = new Texture(Gdx.files.internal("assets/buttons.png"));
+        buttonRegions = TextureRegion.split(buttonTextureSheet, 1000, 300);
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.enButtonTexture = new Texture(buttonsFolder + "EnglishLanguageButton.png");
-        this.ruButtonTexture = new Texture(buttonsFolder + "RussianLanguageButton.png");
-        this.backButtonTexture = new Texture(buttonsFolder + "BackButton.png");
 
-        ImageButton ruButton = createButtonWithSize(ruButtonTexture, 400, 200);
-        ImageButton enButton = createButtonWithSize(enButtonTexture, 400, 200);
-        ImageButton backButton = createButtonWithSize(backButtonTexture, 400, 200);
+        createButtons();
+        Gdx.input.setInputProcessor(stage);
+        logger.info("Texture loading complete");
+    }
 
+    private void createButtons() {
+        // Creating buttons for language selection and back action
+        ImageButton ruButton = createAnimatedButton("ruButton", 6, 1, "ru");
+        ImageButton enButton = createAnimatedButton("enButton", 8, 0, "en");
+        ImageButton backButton = createAnimatedButton("Back", 8, 1, "Back");
+
+        // Positioning buttons
         enButton.setPosition(100, 600);
         ruButton.setPosition(100, 450);
         backButton.setPosition(100, 150);
 
+        // Adding buttons to the stage
         stage.addActor(ruButton);
         stage.addActor(enButton);
         stage.addActor(backButton);
-
-        addClickListener(ruButton, "ruButton");
-        addClickListener(enButton, "enButton");
-        addClickListener(backButton, "Back");
-
-        Gdx.input.setInputProcessor(stage);
     }
 
-    private ImageButton createButtonWithSize(Texture texture, float width, float height) {
-        ImageButton button = new ImageButton(new TextureRegionDrawable(texture));
-        button.setSize(width, height);
+    private ImageButton createAnimatedButton(String action, int row, int col, String actionName) {
+        int languageOffset = currentLanguage.equals("ru") ? 2 : 0;
+
+        // Assign main and hover textures based on language and animation row
+        TextureRegion normalRegion = buttonRegions[row][col + languageOffset];
+        TextureRegion hoverRegion = buttonRegions[row + 1][col + languageOffset];
+
+        ImageButton button = new ImageButton(new TextureRegionDrawable(normalRegion));
+        button.setSize(500, 150);
+
+        // Adding listener for hover effect and button action
+        button.addListener(new ButtonHoverListener(button, normalRegion, hoverRegion, actionName, this::handleButtonAction));
+
         return button;
-    }
-
-    private void addClickListener(ImageButton button, final String action) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                handleButtonAction(action);
-            }
-        });
     }
 
     private void handleButtonAction(String action) {
         switch (action) {
-            case "ruButton":
-                logger.info("Video settings button pressed");
+            case "ru":
+                logger.info("Russian language button pressed");
                 GlobalSettings.getInstance().setLanguage("ru");
                 game.goLanguage();
                 break;
-            case "enButton":
-                logger.info("Audio settings button pressed");
+            case "en":
+                logger.info("English language button pressed");
                 GlobalSettings.getInstance().setLanguage("en");
                 game.goLanguage();
                 break;
             case "Back":
-                logger.info("Back button pressed. Returning to Main Menu.");
+                logger.info("Back button pressed. Returning to Settings Menu.");
                 game.goToSettingsMenu();
                 break;
             default:
@@ -132,8 +129,6 @@ public class LanguageScreen implements Screen {
     public void dispose() {
         stage.dispose();
         backgroundTexture.dispose();
-        enButtonTexture.dispose();
-        ruButtonTexture.dispose();
-        backButtonTexture.dispose();
+        buttonTextureSheet.dispose();
     }
 }

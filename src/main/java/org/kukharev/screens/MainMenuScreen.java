@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -14,17 +15,16 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
 import org.kukharev.core.GlobalSettings;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.utils.ButtonHoverListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MainMenuScreen implements Screen {
     private final SpriteBatch batch;
-    private final Texture startNewGameButtonTexture;
-    private final Texture settingsButtonTexture;
-    private final Texture multiplayerButtonTexture;
-    private final Texture exitGameButtonTexture;
     private final Texture backgroundTexture;
-
+    private final Texture buttonTextureSheet;
+    private final TextureRegion[][] buttonRegions;
+    private final String currentLanguage;
     private final Stage stage;
     private final GameApplication game;
     private static final Logger logger = LoggerFactory.getLogger(MainMenuScreen.class);
@@ -34,26 +34,25 @@ public class MainMenuScreen implements Screen {
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        String currentLanguage = GlobalSettings.getInstance().getLanguage();
+        currentLanguage = GlobalSettings.getInstance().getLanguage();
 
-        String buttonsFolder = "";
-        if (currentLanguage == "en") {
-            buttonsFolder = "assets/buttons/ENButtons/";
-        }else{
-            buttonsFolder = "assets/buttons/RUButtons/";
-        }
-
+        buttonTextureSheet = new Texture(Gdx.files.internal("assets/buttons.png"));
+        buttonRegions = TextureRegion.split(buttonTextureSheet, 1000, 300);
+        createButtons();
+        Gdx.input.setInputProcessor(stage);
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.startNewGameButtonTexture = new Texture(buttonsFolder + "StartNewGameButton.png");
-        this.settingsButtonTexture = new Texture(buttonsFolder + "SettingsButton.png");
-        this.multiplayerButtonTexture = new Texture(buttonsFolder + "MultiplayerButton.png");
-        this.exitGameButtonTexture = new Texture(buttonsFolder + "ExitGameButton.png");
 
-        ImageButton startButton = createButtonWithSize(startNewGameButtonTexture, 400, 200);
-        ImageButton settingsButton = createButtonWithSize(settingsButtonTexture, 400, 200);
-        ImageButton multiplayerButton = createButtonWithSize(multiplayerButtonTexture, 400, 200);
-        ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture, 400, 200);
+        logger.info("Texture loading complete");
+    }
 
+    private void createButtons() {
+        // Button creation with hover and press effects
+        ImageButton startButton = createAnimatedButton("StartNewGame", 0, 0, "StartGame");
+        ImageButton settingsButton = createAnimatedButton("Settings", 0, 1, "Settings");
+        ImageButton multiplayerButton = createAnimatedButton("Multiplayer", 2, 0, "MP");
+        ImageButton exitGameButton = createAnimatedButton("ExitGame", 2, 1, "Exit");
+
+        // Positioning buttons
         startButton.setPosition(100, 600);
         settingsButton.setPosition(100, 450);
         multiplayerButton.setPosition(100, 300);
@@ -63,46 +62,38 @@ public class MainMenuScreen implements Screen {
         stage.addActor(settingsButton);
         stage.addActor(multiplayerButton);
         stage.addActor(exitGameButton);
-
-        addClickListener(startButton, "StartGame");
-        addClickListener(settingsButton, "Settings");
-        addClickListener(multiplayerButton, "MP");
-        addClickListener(exitGameButton, "Exit");
-
-        Gdx.input.setInputProcessor(stage);
-
-        logger.info("Texture loading complete");
     }
 
-    private ImageButton createButtonWithSize(Texture texture, float width, float height) {
-        ImageButton button = new ImageButton(new TextureRegionDrawable(texture));
-        button.setSize(width, height);
+    private ImageButton createAnimatedButton(String baseName, int row, int col, String action) {
+        int languageOffset = currentLanguage.equals("ru") ? 2 : 0;
+
+        // Main and hover regions
+        TextureRegion normalRegion = buttonRegions[row][col + languageOffset];
+        TextureRegion hoverRegion = buttonRegions[row + 1][col + languageOffset];
+
+        ImageButton button = new ImageButton(new TextureRegionDrawable(normalRegion));
+        button.setSize(500, 150);
+
+        // Adding hover and press effect listener
+        button.addListener(new ButtonHoverListener(button, normalRegion, hoverRegion, action, this::handleButtonAction));
+
         return button;
-    }
-
-    private void addClickListener(ImageButton button, final String action) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                handleButtonAction(action);
-            }
-        });
     }
 
     private void handleButtonAction(String action) {
         switch (action) {
             case "StartGame":
                 System.out.println("Start Game pressed");
-                game.goToNewGame(); // Transition to MainMenuScreen
+                game.goToNewGame();
                 dispose();
                 break;
             case "Settings":
                 System.out.println("Settings pressed");
-                game.goToSettingsMenu(); // Transition to MainMenuScreen
+                game.goToSettingsMenu();
                 dispose();
                 break;
             case "MP":
-                System.out.println("MP pressed");
+                System.out.println("Multiplayer pressed");
                 break;
             case "Exit":
                 System.out.println("Exit pressed");
@@ -119,7 +110,7 @@ public class MainMenuScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        logger.info("Texture render start");
+        logger.info("Rendering textures");
         ScreenUtils.clear(0, 0, 0, 1);
         batch.begin();
         batch.draw(backgroundTexture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -147,9 +138,6 @@ public class MainMenuScreen implements Screen {
     public void dispose() {
         stage.dispose();
         backgroundTexture.dispose();
-        startNewGameButtonTexture.dispose();
-        settingsButtonTexture.dispose();
-        multiplayerButtonTexture.dispose();
-        exitGameButtonTexture.dispose();
+        buttonTextureSheet.dispose();
     }
 }

@@ -4,86 +4,79 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import org.kukharev.core.GameApplication;
 import org.kukharev.core.GlobalSettings;
 import org.kukharev.managers.AssetLoader;
+import org.kukharev.utils.ButtonHoverListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SettingsMenu implements Screen {
     private final SpriteBatch batch;
     private final Texture backgroundTexture;
-    private final Texture videoButtonTexture;
-    private final Texture audioButtonTexture;
-    private final Texture languageButtonTexture;
-    private final Texture backButtonTexture;
-
+    private final Texture buttonTextureSheet;
+    private final TextureRegion[][] buttonRegions;
     private final Stage stage;
-    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
     private final GameApplication game;
+    private final String currentLanguage;
+    private static final Logger logger = LoggerFactory.getLogger(SettingsMenu.class);
 
     public SettingsMenu(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
+        logger.info("Loading textures");
         this.batch = batch;
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        String currentLanguage = GlobalSettings.getInstance().getLanguage();
+        currentLanguage = GlobalSettings.getInstance().getLanguage();
 
-        String buttonsFolder = "";
-        if (currentLanguage == "en") {
-            buttonsFolder = "assets/buttons/ENButtons/";
-        }else{
-            buttonsFolder = "assets/buttons/RUButtons/";
-        }
-
+        buttonTextureSheet = new Texture(Gdx.files.internal("assets/buttons.png"));
+        buttonRegions = TextureRegion.split(buttonTextureSheet, 1000, 300);
         this.backgroundTexture = new Texture("assets/backgrounds/MenuBackground.gif");
-        this.videoButtonTexture = new Texture(buttonsFolder + "VideoSettingsButton.png");
-        this.audioButtonTexture = new Texture(buttonsFolder + "AudioSettingsButton.png");
-        this.languageButtonTexture = new Texture(buttonsFolder + "LanguageSettingsButton.png");
-        this.backButtonTexture = new Texture(buttonsFolder + "BackButton.png");
 
-        ImageButton videoButton = createButtonWithSize(videoButtonTexture, 400, 200);
-        ImageButton audioButton = createButtonWithSize(audioButtonTexture, 400, 200);
-        ImageButton languageButton = createButtonWithSize(languageButtonTexture, 400, 200);
-        ImageButton backButton = createButtonWithSize(backButtonTexture, 400, 200);
+        createButtons();
+        Gdx.input.setInputProcessor(stage);
+        logger.info("Texture loading complete");
+    }
 
+    private void createButtons() {
+        // Creating buttons with animations and actions
+        ImageButton videoButton = createAnimatedButton("Video", 6, 0, "Video");
+        ImageButton audioButton = createAnimatedButton("Audio", 4, 1, "Audio");
+        ImageButton languageButton = createAnimatedButton("Language", 4, 0, "Language");
+        ImageButton backButton = createAnimatedButton("Back", 8, 1, "Back");
+
+        // Positioning buttons
         videoButton.setPosition(100, 600);
         audioButton.setPosition(100, 450);
         languageButton.setPosition(100, 300);
         backButton.setPosition(100, 150);
 
+        // Adding buttons to the stage
         stage.addActor(videoButton);
         stage.addActor(audioButton);
         stage.addActor(languageButton);
         stage.addActor(backButton);
-
-        addClickListener(videoButton, "Video");
-        addClickListener(audioButton, "Audio");
-        addClickListener(languageButton, "Language");
-        addClickListener(backButton, "Back");
-
-        Gdx.input.setInputProcessor(stage);
     }
 
-    private ImageButton createButtonWithSize(Texture texture, float width, float height) {
-        ImageButton button = new ImageButton(new TextureRegionDrawable(texture));
-        button.setSize(width, height);
+    private ImageButton createAnimatedButton(String action, int row, int col, String actionName) {
+        int languageOffset = currentLanguage.equals("ru") ? 2 : 0;
+
+        // Assign main and hover textures based on language and animation row
+        TextureRegion normalRegion = buttonRegions[row][col + languageOffset];
+        TextureRegion hoverRegion = buttonRegions[row + 1][col + languageOffset];
+
+        ImageButton button = new ImageButton(new TextureRegionDrawable(normalRegion));
+        button.setSize(500, 150);
+
+        // Adding listener for hover effect and button action
+        button.addListener(new ButtonHoverListener(button, normalRegion, hoverRegion, actionName, this::handleButtonAction));
+
         return button;
-    }
-
-    private void addClickListener(ImageButton button, final String action) {
-        button.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                handleButtonAction(action);
-            }
-        });
     }
 
     private void handleButtonAction(String action) {
@@ -141,9 +134,6 @@ public class SettingsMenu implements Screen {
     public void dispose() {
         stage.dispose();
         backgroundTexture.dispose();
-        videoButtonTexture.dispose();
-        audioButtonTexture.dispose();
-        languageButtonTexture.dispose();
-        backButtonTexture.dispose();
+        buttonTextureSheet.dispose();
     }
 }
