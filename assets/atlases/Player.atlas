@@ -1,9 +1,8 @@
-assets/character/Player.png
+../character/Player.png
 Player.png
   format: RGBA8888
   filter: Nearest,Nearest
   repeat: none
-
   idle_1
     rotate: false
     xy: 0, 0
@@ -46,7 +45,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   right_1
     rotate: false
     xy: 0, 32
@@ -89,7 +87,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   back_1
     rotate: false
     xy: 0, 64
@@ -132,7 +129,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   walk_forward_1
     rotate: false
     xy: 0, 96
@@ -175,7 +171,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   walk_right_1
     rotate: false
     xy: 0, 128
@@ -218,7 +213,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   walk_back_1
     rotate: false
     xy: 0, 160
@@ -261,7 +255,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   sword_forward_1
     rotate: false
     xy: 0, 192
@@ -290,7 +283,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   sword_right_1
     rotate: false
     xy: 0, 224
@@ -319,7 +311,6 @@ Player.png
     orig: 32, 32
     offset: 0, 0
     index: -1
-
   sword_back_1
     rotate: false
     xy: 0, 256

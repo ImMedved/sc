@@ -34,7 +34,7 @@ public class MainMenuScreen implements Screen {
         stage = new Stage(new ScreenViewport());
         currentLanguage = GlobalSettings.getInstance().getLanguage();
 
-        buttonTextureSheet = new Texture(Gdx.files.internal("assets/buttons.png"));
+        buttonTextureSheet = new Texture(Gdx.files.internal("assets/textures/buttons.png"));
         buttonRegions = TextureRegion.split(buttonTextureSheet, 1000, 300);
         createButtons();
         Gdx.input.setInputProcessor(stage);
