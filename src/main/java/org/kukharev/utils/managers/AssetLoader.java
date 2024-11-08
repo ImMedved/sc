@@ -16,7 +16,8 @@ public class AssetLoader {
 
     public void loadAssets() {
         logger.info("Starting AssetLoader loading assets");
-        assetManager.load("assets/GameAssets.atlas", TextureAtlas.class);
+        assetManager.load("assets/atlases/Player.atlas", TextureAtlas.class);
+        assetManager.load("assets/atlases/Player_Actions.atlas", TextureAtlas.class);
         assetManager.load("assets/backgrounds/MenuBackground.gif", Texture.class);
         assetManager.load("assets/menus/LoadingBar.gif", Texture.class);
         assetManager.finishLoading();
@@ -31,12 +32,20 @@ public class AssetLoader {
         return assetManager.update();
     }
 
-    public float getProgress() {
-        return assetManager.getProgress();
+    public void finishLoading() {
+        assetManager.finishLoading();
     }
 
-    public <T> T get(String assetName, Class<T> type) {
-        return assetManager.get(assetName, type);
+    public TextureAtlas getPlayerAtlas() {
+        return assetManager.get("assets/atlases/Player.atlas", TextureAtlas.class);
+    }
+
+    public TextureAtlas getPlayerActionsAtlas() {
+        return assetManager.get("assets/atlases/Player_Actions.atlas", TextureAtlas.class);
+    }
+
+    public float getProgress() {
+        return assetManager.getProgress();
     }
 
     public void dispose() {

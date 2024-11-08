@@ -1,43 +1,350 @@
 assets/character/Player.png
-size: 320,192
-format: RGBA8888
-filter: Linear,Linear
-repeat: none
+Player.png
+  format: RGBA8888
+  filter: Nearest,Nearest
+  repeat: none
 
-# Пример настроек кадров для каждой строки спрайта
+  idle_1
+    rotate: false
+    xy: 0, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  idle_2
+    rotate: false
+    xy: 32, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  idle_3
+    rotate: false
+    xy: 64, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  idle_4
+    rotate: false
+    xy: 96, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  idle_5
+    rotate: false
+    xy: 128, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  idle_6
+    rotate: false
+    xy: 160, 0
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-walk_down_1
-  rotate: false
-  xy: 0, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
+  right_1
+    rotate: false
+    xy: 0, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  right_2
+    rotate: false
+    xy: 32, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  right_3
+    rotate: false
+    xy: 64, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  right_4
+    rotate: false
+    xy: 96, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  right_5
+    rotate: false
+    xy: 128, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  right_6
+    rotate: false
+    xy: 160, 32
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-walk_down_2
-  rotate: false
-  xy: 32, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
+  back_1
+    rotate: false
+    xy: 0, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  back_2
+    rotate: false
+    xy: 32, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  back_3
+    rotate: false
+    xy: 64, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  back_4
+    rotate: false
+    xy: 96, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  back_5
+    rotate: false
+    xy: 128, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  back_6
+    rotate: false
+    xy: 160, 64
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-walk_down_3
-  rotate: false
-  xy: 64, 0
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
+  walk_forward_1
+    rotate: false
+    xy: 0, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_forward_2
+    rotate: false
+    xy: 32, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_forward_3
+    rotate: false
+    xy: 64, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_forward_4
+    rotate: false
+    xy: 96, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_forward_5
+    rotate: false
+    xy: 128, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_forward_6
+    rotate: false
+    xy: 160, 96
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-# Повторите для остальных кадров и направлений
+  walk_right_1
+    rotate: false
+    xy: 0, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_right_2
+    rotate: false
+    xy: 32, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_right_3
+    rotate: false
+    xy: 64, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_right_4
+    rotate: false
+    xy: 96, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_right_5
+    rotate: false
+    xy: 128, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_right_6
+    rotate: false
+    xy: 160, 128
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-walk_left_1
-  rotate: false
-  xy: 0, 32
-  size: 32, 32
-  orig: 32, 32
-  offset: 0, 0
-  index: -1
+  walk_back_1
+    rotate: false
+    xy: 0, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_back_2
+    rotate: false
+    xy: 32, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_back_3
+    rotate: false
+    xy: 64, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_back_4
+    rotate: false
+    xy: 96, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_back_5
+    rotate: false
+    xy: 128, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  walk_back_6
+    rotate: false
+    xy: 160, 160
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
 
-# и так далее для остальных кадров
+  sword_forward_1
+    rotate: false
+    xy: 0, 192
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_forward_2
+    rotate: false
+    xy: 32, 192
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_forward_3
+    rotate: false
+    xy: 64, 192
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_forward_4
+    rotate: false
+    xy: 96, 192
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+
+  sword_right_1
+    rotate: false
+    xy: 0, 224
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_right_2
+    rotate: false
+    xy: 32, 224
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_right_3
+    rotate: false
+    xy: 64, 224
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_right_4
+    rotate: false
+    xy: 96, 224
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+
+  sword_back_1
+    rotate: false
+    xy: 0, 256
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_back_2
+    rotate: false
+    xy: 32, 256
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_back_3
+    rotate: false
+    xy: 64, 256
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1
+  sword_back_4
+    rotate: false
+    xy: 96, 256
+    size: 32, 32
+    orig: 32, 32
+    offset: 0, 0
+    index: -1

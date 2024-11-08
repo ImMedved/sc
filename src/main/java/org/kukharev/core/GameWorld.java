@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -15,6 +16,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class GameWorld {
+    private final TextureAtlas atlas;
+
     private final OrthographicCamera camera;
     private final Player player;
     private final TiledMap map;
@@ -24,9 +27,12 @@ public class GameWorld {
     private final TextureRegion playerTexture;
     private static final Logger logger = LoggerFactory.getLogger(GameWorld.class);
 
-    public GameWorld() {
+    public GameWorld(TextureAtlas atlas, Player player) {
         logger.info("Starting GameWorld init");
         // Initializing the camera
+        this.atlas = atlas;
+        this.player = player;
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         batch = new SpriteBatch();
@@ -39,13 +45,43 @@ public class GameWorld {
         backgroundTexture = new Texture("assets/background.png");
         playerTexture = new TextureRegion();
         // Player initialization
-        player = new Player(playerTexture);
-
+        player = new Player(
+                atlas.findRegion("idle_1"),
+                loadWalkTextures(atlas, "walk_forward_"),
+                loadWalkTextures(atlas, "walk_right_"),
+                loadWalkTextures(atlas, "walk_back_"),
+                loadCombatTextures(atlas),
+                loadActionTextures(atlas)
+        );
         // Example of a trigger
         Trigger[] triggers = new Trigger[]{
                 new Trigger(400, 300, 50, 50, "nextLevel")
         };
         logger.info("GameWorld inited");
+    }
+
+    private TextureRegion[] loadWalkTextures(TextureAtlas atlas, String prefix) {
+        TextureRegion[] textures = new TextureRegion[6];
+        for (int i = 0; i < 6; i++) {
+            textures[i] = atlas.findRegion(prefix + (i + 1));
+        }
+        return textures;
+    }
+
+    private TextureRegion[] loadCombatTextures(TextureAtlas atlas) {
+        TextureRegion[] textures = new TextureRegion[4];
+        for (int i = 0; i < 4; i++) {
+            textures[i] = atlas.findRegion("sword_forward_" + (i + 1));
+        }
+        return textures;
+    }
+
+    private TextureRegion[] loadActionTextures(TextureAtlas atlas) {
+        TextureRegion[] textures = new TextureRegion[4];
+        for (int i = 0; i < 4; i++) {
+            textures[i] = atlas.findRegion("hoe_front_" + (i + 1));
+        }
+        return textures;
     }
 
     public void update(float delta) {
