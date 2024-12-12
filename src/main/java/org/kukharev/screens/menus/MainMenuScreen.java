@@ -1,4 +1,4 @@
-package org.kukharev.screens;
+package org.kukharev.screens.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import org.kukharev.core.GameApplication;
-import org.kukharev.core.GlobalSettings;
+import org.kukharev.core.desktop.GameApplication;
+import org.kukharev.core.game.GlobalSettings;
 import org.kukharev.utils.ButtonHoverListener;
 import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
@@ -60,7 +60,7 @@ public class MainMenuScreen extends BaseMenuScreen {
     private void handleButtonAction(String action) {
         switch(action) {
             case "StartGame":
-                game.goToNewGame();
+                game.startGameAtLevel("level1.tmx");
                 dispose();
                 break;
             case "Settings":

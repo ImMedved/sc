@@ -1,10 +1,10 @@
-package org.kukharev.screens;
+package org.kukharev.screens.menus;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.kukharev.core.GameApplication;
+import org.kukharev.core.desktop.GameApplication;
 import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

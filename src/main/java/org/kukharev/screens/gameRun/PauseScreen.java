@@ -2,68 +2,76 @@ package org.kukharev.screens.gameRun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import org.kukharev.core.GameApplication;
-import org.kukharev.screens.BaseMenuScreen;
+import org.kukharev.core.desktop.GameApplication;
+import org.kukharev.screens.menus.BaseMenuScreen;
+import org.kukharev.utils.ButtonHoverListener;
 import org.kukharev.utils.managers.AssetLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PauseScreen extends BaseMenuScreen {
     private static final Logger logger = LoggerFactory.getLogger(PauseScreen.class);
-    private final Texture settingsButtonTexture;
-    private final Texture exitGameButtonTexture;
-    private final Texture goToMainMenuButtonTexture;
+    private final GameScreen gameScreen;
+    private Texture goToMainMenuButtonTexture;
+    private Texture exitGameButtonTexture;
+    private Texture settingsButtonTexture;
 
-    public PauseScreen(GameApplication game, com.badlogic.gdx.graphics.g2d.SpriteBatch batch, AssetLoader assetLoader) {
+    public PauseScreen(GameApplication game, SpriteBatch batch, AssetLoader assetLoader) {
         super(game, batch, new Texture("assets/backgrounds/MenuBackground.gif"));
-        logger.info("PauseScreen init");
-        settingsButtonTexture = new Texture("assets/buttons/SettingsButton.png");
-        exitGameButtonTexture = new Texture("assets/buttons/ExitGameButton.png");
-        goToMainMenuButtonTexture = new Texture("assets/buttons/MainMenuButton.png");
-
-        ImageButton settingsButton = createButtonWithSize(settingsButtonTexture);
-        ImageButton exitGameButton = createButtonWithSize(exitGameButtonTexture);
-        ImageButton goToMainMenuButton = createButtonWithSize(goToMainMenuButtonTexture);
-
-        settingsButton.setPosition(100,300);
-        goToMainMenuButton.setPosition(100,450);
-        exitGameButton.setPosition(100,150);
-
-        addClickListener(settingsButton, "Settings");
-        addClickListener(exitGameButton, "Exit");
-        addClickListener(goToMainMenuButton, "MainMenu");
-
-        stage.addActor(settingsButton);
-        stage.addActor(exitGameButton);
-        stage.addActor(goToMainMenuButton);
+        this.gameScreen = null; // Если без gameScreen
+        createButtons();
     }
+    private void createButtons() {
+        // Кнопки: Continue, Save, Settings, Exit
+        // Пример:
+        ImageButton continueButton = createButton("Continue");
+        ImageButton saveButton = createButton("Save");
+        ImageButton settingsButton = createButton("Settings");
+        ImageButton exitButton = createButton("Exit");
 
-    private ImageButton createButtonWithSize(Texture texture) {
-        ImageButton button = new ImageButton(new TextureRegionDrawable(new com.badlogic.gdx.graphics.g2d.TextureRegion(texture)));
-        button.setSize(400,200);
-        return button;
+        // Расставить по координатам:
+        // stage.addActor(...)
+
+        addClickListener(continueButton, "Continue");
+        addClickListener(saveButton, "Save");
+        addClickListener(settingsButton, "Settings");
+        addClickListener(exitButton, "Exit");
     }
 
     private void addClickListener(ImageButton button, final String action) {
-        button.addListener(new com.badlogic.gdx.scenes.scene2d.utils.ClickListener(){
-            @Override
-            public void clicked(com.badlogic.gdx.scenes.scene2d.InputEvent event,float x,float y){
-                handleButtonAction(action);
+        button.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y){
+                handleAction(action);
             }
         });
     }
+    private ImageButton createButton(String text) {
+        // Загрузить текстуру кнопки или использовать уже имеющуюся
+        TextureRegion normal = new TextureRegion(new Texture("assets/buttons/btn_normal.png"));
+        TextureRegion hover = new TextureRegion(new Texture("assets/buttons/btn_hover.png"));
+        ImageButton button = new ImageButton(new TextureRegionDrawable(normal));
+        button.setSize(200,50);
+        button.addListener(new ButtonHoverListener(button, normal, hover, text, this::handleAction));
+        return button;
+    }
 
-    private void handleButtonAction(String action) {
-        switch(action){
-            case "MainMenu":
-                game.goToMainMenu();
-                dispose();
+    private void handleAction(String action) {
+        switch(action) {
+            case "Continue":
+                game.setScreen(gameScreen);
+                gameScreen.setPaused(false);
+                break;
+            case "Save":
+                // логика сохранения
                 break;
             case "Settings":
                 game.goToSettingsMenu();
-                dispose();
                 break;
             case "Exit":
                 Gdx.app.exit();

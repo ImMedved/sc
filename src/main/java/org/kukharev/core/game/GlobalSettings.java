@@ -1,4 +1,4 @@
-package org.kukharev.core;
+package org.kukharev.core.game;
 
 public class GlobalSettings {
     private static GlobalSettings instance;

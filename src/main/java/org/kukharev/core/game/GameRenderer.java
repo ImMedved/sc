@@ -1,4 +1,4 @@
-package org.kukharev.core;
+package org.kukharev.core.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

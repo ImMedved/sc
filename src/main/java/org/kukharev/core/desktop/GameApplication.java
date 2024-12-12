@@ -1,11 +1,12 @@
-package org.kukharev.core;
+package org.kukharev.core.desktop;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import org.kukharev.screens.LoadingScreen;
-import org.kukharev.screens.MainMenuScreen;
-import org.kukharev.screens.SettingsMenu;
-import org.kukharev.screens.LanguageScreen;
+import org.kukharev.core.game.LevelManager;
+import org.kukharev.screens.menus.LoadingScreen;
+import org.kukharev.screens.menus.MainMenuScreen;
+import org.kukharev.screens.menus.SettingsMenu;
+import org.kukharev.screens.menus.LanguageScreen;
 import org.kukharev.screens.gameRun.PauseScreen;
 import org.kukharev.screens.gameRun.GameScreen;
 import org.kukharev.utils.managers.AssetLoader;
@@ -15,14 +16,26 @@ import org.slf4j.LoggerFactory;
 public class GameApplication extends Game {
     private SpriteBatch batch;
     private AssetLoader assetLoader;
+    private LevelManager levelManager;
+
     private static final Logger logger = LoggerFactory.getLogger(GameApplication.class);
 
     @Override
     public void create() {
-        logger.info("Starting GameApplication");
         batch = new SpriteBatch();
         assetLoader = new AssetLoader();
+        levelManager = new LevelManager(this, assetLoader);
+
         setScreen(new LoadingScreen(this, batch, assetLoader));
+    }
+
+    public void startGameAtLevel(String levelName) {
+        levelManager.loadLevel(levelName);
+        setScreen(new GameScreen(this, batch, assetLoader, levelManager));
+    }
+
+    public LevelManager getLevelManager() {
+        return levelManager;
     }
 
     public void goToMainMenu() {
@@ -45,14 +58,12 @@ public class GameApplication extends Game {
         setScreen(new LanguageScreen(this,batch, assetLoader));
     }
 
-    public void goToNewGame() {
-        logger.info("Transitioning to Game Screen");
-        setScreen(new GameScreen(this,batch, assetLoader));
-    }
-
     @Override
     public void dispose() {
         batch.dispose();
         assetLoader.dispose();
+    }
+
+    public void goPause(GameScreen gameScreen) {
     }
 }
