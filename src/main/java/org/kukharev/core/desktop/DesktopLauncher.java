@@ -14,7 +14,8 @@ public class DesktopLauncher {
         Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
         config.setTitle("My Game");
         config.setWindowedMode(1920,1080);
-        config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
+        // Если нужно - можно убрать полный экран:
+        //config.setFullscreenMode(Lwjgl3ApplicationConfiguration.getDisplayMode());
         config.setResizable(false);
         logger.info("App config complete");
 

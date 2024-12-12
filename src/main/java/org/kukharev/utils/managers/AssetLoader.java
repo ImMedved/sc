@@ -3,6 +3,7 @@ package org.kukharev.utils.managers;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import org.kukharev.utils.ResourcePaths;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,32 +17,25 @@ public class AssetLoader {
 
     public void loadAssets() {
         logger.info("Starting AssetLoader loading assets");
-        assetManager.load("assets/atlases/Player.atlas", TextureAtlas.class);
-        assetManager.load("assets/atlases/Player_Actions.atlas", TextureAtlas.class);
+        assetManager.load(ResourcePaths.PLAYER_ATLAS, TextureAtlas.class);
+        assetManager.load(ResourcePaths.PLAYER_ACTIONS_ATLAS, TextureAtlas.class);
         assetManager.load("assets/backgrounds/MenuBackground.gif", Texture.class);
         assetManager.load("assets/menus/LoadingBar.gif", Texture.class);
+        // Добавьте загрузку фона и других необходимых ресурсов
         assetManager.finishLoading();
         logger.info("Assets loading complete");
     }
 
-    public TextureAtlas getAtlas(String path) {
-        return assetManager.get(path, TextureAtlas.class);
+    public TextureAtlas getPlayerAtlas() {
+        return assetManager.get(ResourcePaths.PLAYER_ATLAS, TextureAtlas.class);
+    }
+
+    public TextureAtlas getPlayerActionsAtlas() {
+        return assetManager.get(ResourcePaths.PLAYER_ACTIONS_ATLAS, TextureAtlas.class);
     }
 
     public boolean isFinished() {
         return assetManager.update();
-    }
-
-    public void finishLoading() {
-        assetManager.finishLoading();
-    }
-
-    public TextureAtlas getPlayerAtlas() {
-        return assetManager.get("assets/atlases/Player.atlas", TextureAtlas.class);
-    }
-
-    public TextureAtlas getPlayerActionsAtlas() {
-        return assetManager.get("assets/atlases/Player_Actions.atlas", TextureAtlas.class);
     }
 
     public float getProgress() {

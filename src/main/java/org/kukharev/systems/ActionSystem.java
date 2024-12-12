@@ -7,17 +7,17 @@ public class ActionSystem implements GameSystem {
     private final Player player;
     private final TextureRegion[] actionTextures;
     private int currentActionFrame = 0;
-    private float animationTimer = 0;
+    private float animationTimer = 0f;
 
     public ActionSystem(Player player, TextureRegion[] actionTextures) {
         this.player = player;
         this.actionTextures = actionTextures;
     }
 
+    @Override
     public void update(float delta) {
-        // Логика использования действий (например, использование мотыгой или топором)
         animationTimer += delta;
-        if (animationTimer > 0.1f) {  // Скорость смены кадра
+        if (animationTimer > 0.1f) {
             currentActionFrame = (currentActionFrame + 1) % actionTextures.length;
             player.setTexture(actionTextures[currentActionFrame]);
             animationTimer = 0;
@@ -25,7 +25,5 @@ public class ActionSystem implements GameSystem {
     }
 
     @Override
-    public void render() {
-
-    }
+    public void render() {}
 }

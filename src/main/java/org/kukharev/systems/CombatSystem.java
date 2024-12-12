@@ -7,17 +7,18 @@ public class CombatSystem implements GameSystem {
     private final Player player;
     private final TextureRegion[] combatTextures;
     private int currentCombatFrame = 0;
-    private float animationTimer = 0;
+    private float animationTimer = 0f;
 
     public CombatSystem(Player player, TextureRegion[] combatTextures) {
         this.player = player;
         this.combatTextures = combatTextures;
     }
 
+    @Override
     public void update(float delta) {
-        // Логика использования боевых спрайтов (например, проигрывание анимации атаки)
+        // Пример простой анимации атаки
         animationTimer += delta;
-        if (animationTimer > 0.1f) {  // Скорость смены кадра
+        if (animationTimer > 0.1f) {
             currentCombatFrame = (currentCombatFrame + 1) % combatTextures.length;
             player.setTexture(combatTextures[currentCombatFrame]);
             animationTimer = 0;
@@ -25,7 +26,5 @@ public class CombatSystem implements GameSystem {
     }
 
     @Override
-    public void render() {
-
-    }
+    public void render() {}
 }

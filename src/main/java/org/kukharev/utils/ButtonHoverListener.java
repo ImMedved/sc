@@ -8,14 +8,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
+import java.util.function.Consumer;
+
 public class ButtonHoverListener extends InputListener {
     private final ImageButton button;
     private final TextureRegion normalRegion;
     private final TextureRegion hoverRegion;
     private final String action;
-    private final java.util.function.Consumer<String> actionHandler;
+    private final Consumer<String> actionHandler;
 
-    public ButtonHoverListener(ImageButton button, TextureRegion normalRegion, TextureRegion hoverRegion, String action, java.util.function.Consumer<String> actionHandler) {
+    public ButtonHoverListener(ImageButton button, TextureRegion normalRegion, TextureRegion hoverRegion, String action, Consumer<String> actionHandler) {
         this.button = button;
         this.normalRegion = normalRegion;
         this.hoverRegion = hoverRegion;
@@ -37,9 +39,9 @@ public class ButtonHoverListener extends InputListener {
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int buttonCode) {
         button.addAction(Actions.sequence(
-                Actions.moveBy(0, -5, 0.1f), // Press down
-                Actions.moveBy(0, 5, 0.2f),  // Return to original position
-                Actions.run(() -> actionHandler.accept(action)) // Trigger action
+                Actions.moveBy(0, -5, 0.1f),
+                Actions.moveBy(0, 5, 0.2f),
+                Actions.run(() -> actionHandler.accept(action))
         ));
         return true;
     }
